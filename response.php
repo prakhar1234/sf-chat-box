@@ -24,10 +24,15 @@ if(isset($_POST["content_txt"]) && strlen($_POST["content_txt"])>0)
 
 
 	$contentToSave = filter_var($_POST["content_txt"],FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+	$s_emailid=filter_var($_POST["semailid"],FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 
 
 
-	$insert_row = $mysqli->query("INSERT INTO add_delete(content,emailid) VALUES('".$contentToSave."','".$userRow['userEmail']."')");
+	
+	if(!$insert_row = $mysqli->query("INSERT INTO add_delete(content,emailid,s_emailid) VALUES('".$contentToSave."','".$userRow['userEmail']."','".$s_emailid."')"))
+	{
+		alert (wrong);
+	}
 
 	
 	if($insert_row)
@@ -41,8 +46,9 @@ if(isset($_POST["content_txt"]) && strlen($_POST["content_txt"])>0)
 		  echo $contentToSave.'</li>';
 		  $mysqli->close();
 
-	}else{
-		
+	}
+	else
+	{
 
 		header('HTTP/1.1 500 Looks like mysql error, could not insert record!');
 		exit();
